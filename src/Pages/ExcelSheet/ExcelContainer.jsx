@@ -51,7 +51,7 @@ const ExcelContainer = () => {
         
         <div className="cards">
             <div className="bill-header">
-                <h3>Daily ExcelSheet</h3>
+                <h3>Daily ExcelSheets</h3>
                  <span><LuFileSpreadsheet /></span>
             </div>
             <div className="total-count ">

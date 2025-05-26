@@ -38,7 +38,7 @@ const HomeContainer = () => {
     <section className="Container">
       <div  className="nav">
         <div className="title">
-            <h1>DashBoard Overview </h1>
+            <h1 style={{userSelect:'text'}}>DashBoard Overview </h1>
         </div>
      
     

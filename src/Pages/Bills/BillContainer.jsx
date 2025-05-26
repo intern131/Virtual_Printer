@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 
 import { FaStore } from "react-icons/fa6";
 import { LuFileSpreadsheet } from "react-icons/lu";
-import "../../assets/Style/Excel&BillContainer.css"
+import "../../assets/Style/BillContainer.css"
 
 
 
@@ -16,7 +16,7 @@ const Container = () => {
   useEffect(()=>{
       const fetchdata= async ()=>{// function can call api we can also make custom hooks afterwards
        try{
-         const response=await fetch('http://192.168.29.78:5000/pdf-report');
+         const response=await fetch('http://192.168.29.78:5000/pdf-reports');
          if(!response.ok){
           throw new Error("Fail to fetch api");
 
@@ -34,6 +34,7 @@ const Container = () => {
        }
       };
       fetchdata();
+      
   },[])   
 
 
