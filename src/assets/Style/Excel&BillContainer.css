@@ -1,0 +1,89 @@
+.excel-table-container {
+  margin: 1rem;
+  padding: 1rem;
+  background-color: #fffdf7;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+}
+
+tr {
+  border: 1px solid #ccc;
+  border-collapse: collapse;
+  background-color: #fafafa;
+}
+
+td {
+  padding: 1rem;
+  border: 1px solid #bbb;
+  vertical-align: middle;
+  font-size: 14px;
+  color: #333;
+}
+
+.table-btn {
+  width: 100%;
+  padding: 10px 14px;
+  margin-bottom: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  color: #fff;
+  background-color: #43a047;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.table-btn#Download {
+  background-color: #e65100;
+}
+
+.table-btn:hover {
+  opacity: 0.95;
+  transform: translateY(-1px);
+}
+
+@media (min-width: 1024px) {
+  .excel-table-container {
+    padding: 0.5rem;
+    background-color: #fffdf7;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+    margin-left: 2rem;
+  }
+  .excel-table-container h2 {
+    text-align: center;
+    padding: 0.5rem;
+  }
+  table.excel-table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  th, td {
+    padding: 1.2rem;
+    font-size: 16px;
+    text-align: left;
+    border: 1px solid #bbb;
+  }
+  th {
+    background-color: #f5f5f5;
+    font-weight: 700;
+    color: #222;
+  }
+  .action-buttons {
+    display: flex;
+    gap: 1rem;
+    justify-content: flex-start;
+    align-items: center;
+  }
+  .table-btn {
+    width: auto;
+    min-width: 120px;
+    padding: 10px 18px;
+    font-size: 15px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  }
+}
