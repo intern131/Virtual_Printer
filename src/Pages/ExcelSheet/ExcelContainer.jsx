@@ -7,10 +7,6 @@ import * as XLSX from 'xlsx';
 
 const ExcelContainer = () => {
 
-   
-
-
-
   const handleclick = async () => {
    try{
     const response=Test();
@@ -24,7 +20,7 @@ const ExcelContainer = () => {
     XLSX.utils.book_append_sheet(workbook,worksheet,'Sheet 1');
     XLSX.writeFile(workbook,'Exceltest.xlsx');
     
-    // http://192.168.29.78:5000/pdf-report
+   
    }
 
 

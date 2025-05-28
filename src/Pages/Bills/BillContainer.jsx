@@ -1,30 +1,42 @@
 import React, { useState, useEffect } from 'react';
-
 import { FaStore } from "react-icons/fa6";
 import { LuFileSpreadsheet } from "react-icons/lu";
 import "../../assets/Style/BillContainer.css"
+import { TablePagination } from '@mui/material';
 
-
+// import { DateRangePicker } from '@mui/x-date-pickers-pro/DateRangePicker';
+// import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+// import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 
 
 
 
 const Container = () => {
   const [Data,setdata]=useState(null); // used to store data from api 
-     
+  const [page,setpage]=useState(0);//Current Page Index
+  const [rowperPage,setRowsPerPage]=useState(10);// number of rows per page
+
+
+
+
+
+    
 
   useEffect(()=>{
       const fetchdata= async ()=>{// function can call api we can also make custom hooks afterwards
        try{
-         const response=await fetch('http://192.168.29.78:5000/pdf-reports');
+         const response=await fetch('http://192.168.29.78:5000/pdf-report');
          if(!response.ok){
           throw new Error("Fail to fetch api");
 
          }
-        
+         // http://192.168.29.78:5000/pdf-report
          const jsonData = await response.json();
-          console.log(jsonData);
-          setdata(jsonData);
+         const daywise= jsonData.day_wise;
+         console.log(daywise);
+         setdata(jsonData);
+         
+       
 
          
        }
@@ -33,9 +45,58 @@ const Container = () => {
          console.log( err+"IT is issue fetching an api")
        }
       };
+
       fetchdata();
       
-  },[])   
+  },[]);
+
+
+const handleChangePage=(event,newpage)=>{ // handle page change
+      setpage(newpage); 
+    };
+
+
+   
+
+
+  //Extract data flatten file data one single data
+ const rows = Data
+  ? Object.entries(Data.day_wise).flatMap(([date, info]) =>
+       
+      info.files.map(file => ({
+        name: file.split('/').pop(),
+        date,
+        file
+      }))
+    )
+  : [];
+
+   
+
+
+
+ 
+
+
+
+  // Filtering row for per page according to usage 
+
+  const paginatedRows=FilterRows.slice(page *rowperPage,  page*rowperPage+rowperPage);
+
+
+ //Handle  change in rows per page 
+    const handleChangeRowperPage=(event)=>{
+          
+        setRowsPerPage(parseInt(event.target.value,10));
+        setpage(0);// Reset the page to the first page wherver  rows per pages changes
+       
+    }
+
+  
+
+
+
+
 
 
 
@@ -131,26 +192,48 @@ const Container = () => {
          </tr>
        </thead>
        <tbody>
-         <tr>
-           <td>Xyz.excel</td>
-           <td>10/12/2024</td>
-           <td>
-             <div className="action-buttons">
-               <button onClick={handleclick} id="Preview" className="table-btn" >Preview</button>
-               <button onClick={handleclick}  id="Download" className="table-btn" >Download</button>
-             </div>
-           </td>
-         </tr>
+        {paginatedRows.map((row,idx)=>(
+            <tr key={idx}>
+            <td>{row.name}</td>
+            <td>{row.date}</td>
+            <td>
+          <div className="action-buttons">
+          <button onClick={handleclick} id="Preview" className="table-btn">Preview</button>
+          <button onClick={handleclick} id="Download" className="table-btn">Download</button>
+        </div>
+            </td>
+            </tr>
+        ))}
+        {paginatedRows.length === 0 &&(
+          <tr><td colSpan={3}> Data is not fetch </td></tr>
+        )}
+   
+
+        
        </tbody>
      </table>
+      <TablePagination
+       component="div"
+       count={rows.length}
+       page={page}
+       onPageChange={handleChangePage}
+       rowsPerPage={rowperPage}
+       onRowsPerPageChange={handleChangeRowperPage}
+       rowsPerPageOptions={[5,10,25]}
+      
+      
+      />
      
      
-           </div>
+      </div>
 
   
  
 
  </section>
+
+ 
+
 
 </>
 
@@ -159,3 +242,34 @@ const Container = () => {
 }
 
 export default Container
+ //<tr>
+           {/* <td>Xyz.excel</td>
+           <td>10/12/2024</td>
+           <td>
+             <div className="action-buttons">
+               <button onClick={handleclick} id="Preview" className="table-btn" >Preview</button>
+               <button onClick={handleclick}  id="Download" className="table-btn" >Download</button>
+             </div>
+           </td>
+         </tr> */}
+
+
+
+//             {Data ? (
+//   Object.entries(Data.day_wise).map(([date, info]) =>
+//     info.files.map((file, idx) => (
+//       <tr key={`${date}-${idx}`}>
+//         <td>{file.split('/').pop()}</td>
+//         <td>{date}</td>
+//         <td>
+//           <div className="action-buttons">
+//             <button onClick={handleclick} id="Preview" className="table-btn">Preview</button>
+//             <button onClick={handleclick} id="Download" className="table-btn">Download</button>
+//           </div>
+//         </td>
+//       </tr>
+//     ))
+//   )
+// ) : (
+//   <tr><td colSpan={3}>Loading</td></tr>
+// )}
