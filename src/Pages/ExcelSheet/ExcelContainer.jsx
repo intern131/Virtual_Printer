@@ -3,7 +3,7 @@ import { FaStore } from "react-icons/fa6";
 import { LuFileSpreadsheet } from "react-icons/lu";
 import "../../assets/Style/Excel&BillContainer.css"
 import Test from '../../Components/Test';
-import * as XLSX from 'xlsx';
+
 
 const ExcelContainer = () => {
 

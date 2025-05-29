@@ -5,6 +5,7 @@ import "../../assets/Style/HomeContainer.css"
 import ChartCard from '../../Components/Chart/ChartCard';
 import Piechart from '../../Components/Chart/Piechart';
 import LinecardChart from '../../Components/Chart/LinecardChart';
+import "../../assets/Style/HomeContainer.css"
 
 
 const HomeContainer = () => {
@@ -38,14 +39,14 @@ const HomeContainer = () => {
     <section className="Container">
       <div  className="nav">
         <div className="title">
-            <h1 style={{userSelect:'text'}}>DashBoard Overview </h1>
+            <h1 className='text-red-800 font-extrabold'>DashBoard Overview </h1>
         </div>
      
     
     
       </div>
     
-      <div className="cards-container">
+      <div className="cards-container ">
         
         <div className="cards">
             <div className="bill-header">

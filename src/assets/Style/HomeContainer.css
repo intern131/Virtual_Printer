@@ -47,6 +47,9 @@ html, body {
   gap: 2rem;
 }
 .cards .bill-header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   margin-top: 1rem;
 }
 .cards .bill-header h3 {
