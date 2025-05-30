@@ -32,15 +32,16 @@ const Container = () => {
   useEffect(()=>{
       const fetchdata= async ()=>{// function can call api we can also make custom hooks afterwards
        try{
-         const response=await fetch('http://192.168.178.175:5000/pdf-report');
+        const BaseUrl=import.meta.env.VITE_DOWNLOAD_BASE_URL_Bills
+         const response=await fetch(BaseUrl);
          if(!response.ok){
           throw new Error("Fail to fetch api");
 
          }
-         // http://192.168.29.78:5000/pdf-report
+         
          const jsonData = await response.json();
          const daywise= jsonData.day_wise;
-         console.log(daywise);
+        //  console.log(daywise);
          setdata(jsonData);
          
        
@@ -143,8 +144,9 @@ const FilterRows=rows.filter(rows=>
    else if (action === "Download") {
 
       const baseUrl = import.meta.env.VITE_DOWNLOAD_BASE_URL;
-      const downloadUrl = `${baseUrl}${encodeURIComponent(row.file)}`;
+      const downloadUrl = `${baseUrl}${(row.file)}`;
       // Forcing download: create a temporary link
+
       const a = document.createElement('a');
       a.href = downloadUrl;
       a.download = row.name;
@@ -288,6 +290,7 @@ const FilterRows=rows.filter(rows=>
         title="PDF Preview"
         width="100%"
         height="100%"
+        typeof='application/pdf'
         style={{ border: "none" }}
       />
     </div>

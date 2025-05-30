@@ -6,6 +6,7 @@ import ChartCard from '../../Components/Chart/ChartCard';
 import Piechart from '../../Components/Chart/Piechart';
 import LinecardChart from '../../Components/Chart/LinecardChart';
 import "../../assets/Style/HomeContainer.css"
+import { ClassNames } from '@emotion/react';
 
 
 const HomeContainer = () => {
@@ -39,7 +40,7 @@ const HomeContainer = () => {
     <section className="Container">
       <div  className="nav">
         <div className="title">
-            <h1 className='text-red-800 font-extrabold'>DashBoard Overview </h1>
+            <h1 className='text-black-800 text-4xl font-bold '>DashBoard Overview </h1>
         </div>
      
     
@@ -50,11 +51,11 @@ const HomeContainer = () => {
         
         <div className="cards">
             <div className="bill-header">
-                <h3>Total Bills</h3>
-                 <span><LuFileSpreadsheet /></span>
+                <h2 className='text-bold text-3xl'>Total Bills</h2>
+                 <span className='text-bold text-2xl'><LuFileSpreadsheet style={{marginTop:'1rem'}} /></span>
             </div>
             <div className="total-count ">
-                <h1>123</h1>
+                <h1 className='text-bold text-2xl'>123</h1>
             </div>
             
         </div>
@@ -64,8 +65,8 @@ const HomeContainer = () => {
         
         <div className="cards">
             <div className="bill-header">
-                <h3>Total ExcelSheet</h3>
-                 <span><LuFileSpreadsheet /></span>
+                <h3 className='text-bold text-3xl'>Total ExcelSheet</h3>
+                 <span className='  text-bold text-2xl'>< LuFileSpreadsheet style={{marginTop:'1rem'}} /></span>
             </div>
             <div className="total-count ">
                 <h1>123</h1>
