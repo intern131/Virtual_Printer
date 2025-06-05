@@ -8,7 +8,7 @@ const Layout = () => {
        <div className="layout-wrapper">
         <SideBar/>
          
-         <div className="main-content">
+         <div className="main-content max-lg:pl-20 w-100">
          <Outlet />
          </div>
             

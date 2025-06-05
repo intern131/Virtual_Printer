@@ -7,6 +7,7 @@ yarn-error.log*
 pnpm-debug.log*
 lerna-debug.log*
 
+# Dependency directories
 node_modules
 dist
 dist-ssr
@@ -23,6 +24,9 @@ dist-ssr
 *.sln
 *.sw?
 
-#files
+# Project-specific files
 ExcelContainer.css
+FakeData.js
 
+# Environment files
+.env

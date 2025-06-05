@@ -7,13 +7,14 @@ import { TablePagination } from '@mui/material';
 // import { Document, Page, pdfjs } from 'react-pdf';
 import BasicDatePicker from '../../Components/DatePicker/BasicDatePicker';
 import dayjs from 'dayjs';
+import "../../assets/Style/BillContainer.css"
 
 
 
 
 // pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.min.js`;
 
-const Container = () => {
+const BillContainer = () => {
   const [Data,setdata]=useState(null); // used to store data from api 
   const [page,setpage]=useState(0);//Current Page Index
   const [rowperPage,setRowsPerPage]=useState(10);// number of rows per page
@@ -25,7 +26,7 @@ const Container = () => {
 
 
 
-
+  
 
     
 
@@ -42,7 +43,12 @@ const Container = () => {
          const jsonData = await response.json();
          const daywise= jsonData.day_wise;
         //  console.log(daywise);
-         setdata(jsonData);
+         setdata(jsonData)
+        // console.log(jsonData);
+
+
+        
+        
          
        
 
@@ -65,18 +71,26 @@ const handleChangePage=(event,newpage)=>{ // handle page change
 
 
    
+ //Handle  change in rows per page 
+    const handleChangeRowperPage=(event)=>{
+          
+        setRowsPerPage(parseInt(event.target.value,10));
+        setpage(0);// Reset the page to the first page wherver  rows per pages changes
+       
+    }
+
 
 
   //Extract data flatten file data one single data
  const rows = Data
   ? Object.entries(Data.day_wise).flatMap(([date, info]) =>
-       
-      info.files.map(file => ({
-        name: file.split('/').pop(),
-        date,
-        file
-      }))
-    )
+      //  console.log(rows)
+        info.files.map(file => ({
+          name: file.split('/').pop(),
+          date,
+          file
+        }))
+     )
   : [];
 
   /// filter by date which wanted by the user
@@ -96,13 +110,7 @@ const FilterRows=rows.filter(rows=>
   const paginatedRows=FilterRows.slice(page *rowperPage,  page*rowperPage+rowperPage);
 
 
- //Handle  change in rows per page 
-    const handleChangeRowperPage=(event)=>{
-          
-        setRowsPerPage(parseInt(event.target.value,10));
-        setpage(0);// Reset the page to the first page wherver  rows per pages changes
-       
-    }
+
 
   
 
@@ -161,9 +169,9 @@ const FilterRows=rows.filter(rows=>
 
  return(
 <>
- <section className="Container">
+ <section className="Bill-Container ml-5">
   <div  className="nav">
-    <div className="title">
+    <div className="title  text-center text-black-700 text-2xl font-extrabold mt-1   max-sm:text-sm">
         <h1>DashBoard Overview </h1>
     </div>
   
@@ -171,16 +179,16 @@ const FilterRows=rows.filter(rows=>
 
   </div>
 
-  <div className="cards-container">
+  <div className="Bill-cards-container  flex flex-col lg:flex-row flex-nowrap justify-center w-full gap-6   md:flex-row  max-sm:pr-2 max-sm:pl-2">
  
     
-    <div className="cards">
-        <div className="bill-header">
-            <h3>Daily Bills</h3>
-             <span><LuFileSpreadsheet /></span>
+    <div className="Bill-cards   bg-[#d9d9d9] h-80 rounded-3xl shadow-2xl p-6 mt-10 w-full sm:w-1/2 lg:w-1/3 cursor-pointer">
+        <div className="bill-header flex flex-col items-center gap-4 mt-10  cursor-pointer">
+            <h1 className='text-2xl font-extrabold'>Daily Bills</h1>
+             <span style={{fontSize:'1.5rem'}}><LuFileSpreadsheet /></span> 
         </div>
-        <div className="total-count ">
-            <h1>{Data && Data.day_wise['2025-05-08'] ? Data.day_wise['2025-05-08'].count : 0}</h1>
+        <div className="total-count mt-20 ">
+            <h1 className='text-bold font-semibold  text-3xl  text-center'>{Data && Data.day_wise['2025-05-08'] ? Data.day_wise['2025-05-08'].count : 0}</h1>
         </div>
         
     </div>
@@ -188,25 +196,25 @@ const FilterRows=rows.filter(rows=>
 
  
     
-    <div className="cards">
-        <div className="bill-header">
-            <h3>weekly Bills</h3>
-             <span><LuFileSpreadsheet /></span>
+    <div className="Bill-cards  cards bg-[#d9d9d9] h-80 rounded-3xl shadow-2xl p-6 mt-10 w-full sm:w-1/2 lg:w-1/3 cursor-pointer">
+        <div className="bill-header flex flex-col items-center gap-4 mt-10 ">
+            <h1 className=' text-2xl font-extrabold'>weekly Bills</h1>
+             <span style={{fontSize:'1.5rem'}}><LuFileSpreadsheet /></span>
         </div>
-        <div className="total-count ">
-            <h1>{Data && Data.week_wise['2025-W18'] ? Data.week_wise['2025-W18'] : 0}
+        <div className="total-count mt-20">
+            <h1 className=' text-bold font-semibold  text-3xl  text-center'>{Data && Data.week_wise['2025-W18'] ? Data.week_wise['2025-W18'] : 0}
             </h1>
         </div>
        
         </div>
 
-         <div className="cards">
-        <div className="bill-header ">
-            <h3>Monthly</h3>
-             <span><FaStore /></span>
+         <div className="Bill-cards  cards bg-[#d9d9d9] h-80 rounded-3xl shadow-2xl p-6 mt-10 w-full sm:w-1/2 lg:w-1/3 cursor-pointer">
+        <div className="bill-header flex flex-col items-center gap-4 mt-10">
+            <h1 className='text-semibold font-extrabold  text-2xl  text-center' >Monthly</h1>
+             <span style={{fontSize:'1.5rem'}}><FaStore /></span>
         </div>
-        <div className="total-count">
-            <h1>{Data && Data.month_wise['2025-05']}</h1>
+        <div className="total-count mt-20">
+            <h1 className='text-bold font-semibold  text-3xl  text-center'>{Data && Data.month_wise['2025-05'] && Data.month_wise['2025-05']?Data.month_wise['2025-05']:0}</h1>
         </div>
 
         </div>
@@ -216,10 +224,10 @@ const FilterRows=rows.filter(rows=>
 
   </div>
 
-  <div className="excel-table-container ">
+  <div className="Bills-table-container ">
       <BasicDatePicker       value={filterDate} onChange={(newdate)=>setFilterDate(newdate)} />
      
-     <table className='excel-table'>
+     <table className='Bill-table'>
            
       
      <caption><h2>Bills</h2></caption>
@@ -309,7 +317,7 @@ const FilterRows=rows.filter(rows=>
   
 }
 
-export default Container
+export default BillContainer
  
 
 

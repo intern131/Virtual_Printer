@@ -8,6 +8,7 @@ import BasicDatePicker from '../../Components/DatePicker/BasicDatePicker';
 
 
 
+
 const ExcelContainer = () => {
   const [Data,setData]=useState([]);  // use set data for fetching data
    const [page,setpage]=useState(0);//Current Page Index
@@ -21,19 +22,35 @@ const ExcelContainer = () => {
 
     useEffect(()=>{
      
-      const fetchdata= async()=>{  
-        try{ const BaseURl=import.meta.env.VITE_DOWNLOAD_BASE_URL_EXCEL
-         const Response=await fetch(BaseURl);
+      const fetchdata= async()=>{ 
+          const baseUrl=import.meta.env.VITE_DOWNLOAD_BASE_URL_EXCEL
+          const Response=await fetch(baseUrl);
+          if(!Response.ok){
+            throw new Error('Unable to fetch data');
+          }
+          const JsonData=await Response.json();
+          console.log(JsonData.excel_reports);
+          const newdata=JsonData.excel_reports;
+         const Sortdate = newdata.sort((a, b) => new Date(b.date) - new Date(a.date));
 
-         const JsonData=await Response.json();
-         const newdata=JsonData.excel_reports;
-         console.log(JsonData);
-         setData(JsonData.excel_reports);
+          setData(Sortdate);
+      //   try{ const BaseURl=import.meta.env.VITE_DOWNLOAD_BASE_URL_EXCEL
+      //    const Response=await fetch(BaseURl);
+
+      //    if(!Response.ok){
+      //      throw new Error('Unable to fetch data')
+      //    }
+
+      //    const JsonData=await Response.json();
+      //    const newdata=JsonData.excel_reports;
+      //    const Sortdate=newdata.sort((a,b)=>new newdata(b.newdata.date)-new newdata(a.newdata.date));
+       
+      //   //  setData(JsonData.excel_reports);
         
-      }
-      catch(err){
-        console.error("Error while fetching excel data"+err);
-      }
+      // }
+      // catch(err){
+      //   console.error("Error while fetching excel data"+err);
+      // }
 
        
   };
@@ -111,9 +128,9 @@ const ExcelContainer = () => {
 
   return (
     <>
-     <section className="Container">
+     <section className="Excel-Container ml-2">
       <div  className="nav">
-        <div className="title">
+        <div className="title text-center text-black-700 text-2xl font-extrabold mt-1   max-sm:text-sm">
             <h1>DashBoard Overview </h1>
         </div>
         
@@ -121,15 +138,15 @@ const ExcelContainer = () => {
     
       </div>
     
-      <div className="cards-container">
+      <div className="Excel-cards-container  flex flex-col lg:flex-row flex-nowrap justify-center w-full gap-6   md:flex-row  max-sm:pr-2 max-sm:pl-2">
         
-        <div className="cards">
-            <div className="bill-header">
-                <h3>Daily ExcelSheets</h3>
+        <div className="Excel-cards  cards bg-[#d9d9d9] h-80 rounded-3xl shadow-2xl p-6 mt-10 w-full sm:w-1/2 lg:w-1/3 cursor-pointer" >
+            <div className="bill-header flex flex-col items-center gap-4 mt-10  cursor-pointer">
+                <h3 className='text-xl font-extrabold'>Daily ExcelSheets</h3>
                  <span><LuFileSpreadsheet /></span>
             </div>
-            <div className="total-count ">
-                <h1>123</h1>
+            <div className="total-count  mt-20 ">
+                <h1 className='text-bold font-semibold  text-3xl  text-center'>123</h1>
             </div>
             
         </div>
@@ -137,24 +154,24 @@ const ExcelContainer = () => {
     
      
         
-        <div className="cards">
-            <div className="bill-header">
-                <h3>Weekly ExcelSheet</h3>
+        <div className="Excel-cards  cards bg-[#d9d9d9] h-80 rounded-3xl shadow-2xl p-6 mt-10 w-full sm:w-1/2 lg:w-1/3 cursor-pointer">
+            <div className="bill-header flex flex-col items-center gap-4 mt-10  cursor-pointer">
+                <h3 className='text-xl font-extrabold'>Weekly ExcelSheet</h3>
                  <span><LuFileSpreadsheet /></span>
             </div>
-            <div className="total-count ">
-                <h1>123</h1>
+            <div className="total-count  mt-20 ">
+                <h1 className=' text-bold font-semibold  text-3xl  text-center'>123</h1>
             </div>
            
             </div>
     
-             <div className="cards">
-            <div className="bill-header ">
-                <h3>Monthly ExcelSheet</h3>
+             <div className="Excel-cards  cards bg-[#d9d9d9] h-80 rounded-3xl shadow-2xl p-6 mt-10 w-full sm:w-1/2 lg:w-1/3 cursor-pointer">
+            <div className="bill-header flex flex-col items-center gap-4 mt-10  cursor-pointer ">
+                <h3 className='text-xl font-extrabold'>Monthly ExcelSheet</h3>
                  <span><FaStore /></span>
             </div>
-            <div className="total-count">
-                <h1>123</h1>
+            <div className="total-count  mt-20">
+                <h1 className=' text-bold font-semibold  text-3xl  text-center'>123</h1>
             </div>
     
             </div>
@@ -166,7 +183,7 @@ const ExcelContainer = () => {
 
    
       <div className="excel-table-container ">
-         <BasicDatePicker       value={FilterDate} onChange={(newdate)=>setFilterData(newdate)} />
+         <BasicDatePicker  value={FilterDate} onChange={(newdate)=>setFilterData(newdate)} />
            
 
       <h2>Excel</h2>

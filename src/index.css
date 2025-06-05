@@ -1,11 +1,16 @@
-
-@import "tailwindcss";
-
-
-body {
-  background-color:#ffffff;
+body{
+ background-color: beige;
 }
 
-* {
+@import "tailwindcss"
+
+
+
+
+/* * {
   caret-color: transparent;
 }
+* html, * body {
+  width: 100%;
+  height: 100%;
+} */ 
