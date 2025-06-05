@@ -68,12 +68,19 @@ const ExcelContainer = () => {
     const previewUrl = `${baseUrl}${row.file}`;
     const response= await fetch(previewUrl);
     if(!response.ok)throw new Error('failed to fetch the pdf');
-   const Blob=await response.blob();
-   const pdfurlblob=URL.createObjectURL(Blob);
+    const parsedData=await response.json();
+
+    console.log(parsedData.preview_url);
+   const newpreviewurl = `https://docs.google.com/gview?url=${(parsedData.preview_url)}&embedded=true`;
+
+// setpdfurl(newpreviewurl);
+// setpreview(true);
 
 
 
-    setpdfurl(pdfurlblob);
+  
+
+    setpdfurl(newpreviewurl);
     setpreview(true);
     }
     catch(err){
@@ -234,7 +241,27 @@ const ExcelContainer = () => {
 
       </div>
     
-    
+    {showpreview && (
+  <div className="fixed top-0 left-0 w-screen h-screen bg-black bg-opacity-60 flex justify-center items-center z-[9999]">
+  <div className="w-[80%] h-[90%] bg-white rounded overflow-hidden relative  ">
+    <button
+      onClick={() => setpreview(false)}
+      className="absolute top-2 right-30 z-50 bg-black text-white px-3 py-1 rounded cursor-pointer hover:bg-white hover:text-black border border-white transition"
+    >
+      Close
+    </button>
+
+    <iframe
+      src={pdfurl}
+      title="PDF Preview"
+      width="100%"
+      height="100%"
+      className="border-none"
+    />
+  </div>
+</div>
+
+)}
       
      
     

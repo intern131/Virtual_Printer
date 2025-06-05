@@ -31,7 +31,7 @@ useEffect(() => {
 
       const Monthlabels = Object.keys(jsonData.month_wise).map(key => key.split(" ")[0]);
       const Monthvalues = Object.values(jsonData.month_wise);
-  
+       
 
       setLabel(Monthlabels);
       setValues(Monthvalues);

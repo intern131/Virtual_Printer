@@ -23,6 +23,7 @@ const BillContainer = () => {
   const [pdfurl,setpdfurl]=useState(null);// url link  pdf js  to show preview
   const [showpreview,setpreview]=useState(false);
 
+  console.log("pdfurl:",pdfurl)
 
 
 
@@ -132,13 +133,16 @@ const FilterRows=rows.filter(rows=>
     const baseUrl = import.meta.env.VITE_DOWNLOAD_BASE_URL_2;
     const previewUrl = `${baseUrl}${row.file}`;
     const response= await fetch(previewUrl);
+
     if(!response.ok)throw new Error('failed to fetch the pdf');
-   const Blob=await response.blob();
-   const pdfurlblob=URL.createObjectURL(Blob);
+  //  const Blob=await response.blob();
+  // //  console.log("Blob:",Blob)
+  //  const pdfurlblob=URL.createObjectURL(Blob);
+   const parsedData = await response.json()
 
+   console.log("pdfurlblob:",parsedData);
 
-
-    setpdfurl(pdfurlblob);
+    setpdfurl(parsedData.preview_url);
     setpreview(true);
     }
     catch(err){
@@ -281,28 +285,25 @@ const FilterRows=rows.filter(rows=>
   
 
 {showpreview && (
-  <div style={{
-    position: 'fixed', top: 0, left: 0, width: '100vw', height: '100vh',
-    backgroundColor: 'rgba(0, 0, 0, 0.6)', display: 'flex',
-    justifyContent: 'center', alignItems: 'center', zIndex: 9999
-  }}>
-    <div style={{
-      width: '80%', height: '90%', background: 'white',
-      borderRadius: 8, overflow: 'hidden', position: 'relative'
-    }}>
-      <button style={{
-        position: 'absolute', top: 10, right: 10, zIndex: 10000
-      }} onClick={() => setpreview(false)}>Close</button>
-      <iframe
-        src={pdfurl}
-        title="PDF Preview"
-        width="100%"
-        height="100%"
-        typeof='application/pdf'
-        style={{ border: "none" }}
-      />
-    </div>
+  <div className="fixed top-0 left-0 w-screen h-screen bg-black bg-opacity-60 flex justify-center items-center z-[9999]">
+  <div className="w-[80%] h-[90%] bg-white rounded overflow-hidden relative  ">
+    <button
+      onClick={() => setpreview(false)}
+      className="absolute top-2 right-30 z-50 bg-black text-white px-3 py-1 rounded cursor-pointer hover:bg-white hover:text-black border border-white transition"
+    >
+      Close
+    </button>
+
+    <iframe
+      src={pdfurl}
+      title="PDF Preview"
+      width="100%"
+      height="100%"
+      className="border-none"
+    />
   </div>
+</div>
+
 )}
 
 
