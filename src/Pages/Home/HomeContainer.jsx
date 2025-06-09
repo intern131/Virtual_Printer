@@ -1,220 +1,242 @@
-import React,{useEffect,useState} from 'react'
+import React, { useEffect, useState } from 'react'
 
 import { LuFileSpreadsheet } from "react-icons/lu";
 import "../../assets/Style/HomeContainer.css"
 
-import "../../assets/Style/HomeContainer.css"
-import { ClassNames } from '@emotion/react';
-import {Chart as ChartJS,defaults} from 'chart.js/auto';
-import {Bar,Doughnut,Line} from 'react-chartjs-2'
-import FakeData from '../../Components/FakeData';
 
-defaults.maintainAspectRatio=false
-defaults.responsive=true;
-defaults.plugins.title.display=true;
-defaults.plugins.title.align='start';
-defaults.plugins.title.font.size=20;
-defaults.plugins.title.color='black';
+import { ClassNames } from '@emotion/react';
+import { Chart as ChartJS, defaults } from 'chart.js/auto';
+import { Bar, Doughnut, Line } from 'react-chartjs-2'
+import FakeData from '../../Components/FakeData';
+import { FaCalendarDay, FaCalendarWeek, FaCalendarAlt, FaDownload, FaEye } from "react-icons/fa";
+
+defaults.maintainAspectRatio = false
+defaults.responsive = true;
+defaults.plugins.title.display = true;
+defaults.plugins.title.align = 'start';
+defaults.plugins.title.font.size = 20;
+defaults.plugins.title.color = 'black';
 
 const HomeContainer = () => {
-const [Labels, setLabel] = useState([]);
-const [values, setValues] = useState([]);
-const [newlabel,setnewLabel]=useState([]);
-const [newvalues,setnewValues]=useState([]);
+  const [Labels, setLabel] = useState([]);
+  const [values, setValues] = useState([]);
+  const [newlabel, setnewLabel] = useState([]);
+  const [newvalues, setnewValues] = useState([]);
 
-useEffect(() => {
-  const fetchData = async () => {
-    try {
-      const BaseURl = import.meta.env.VITE_BARCHART_URL;
-      const response = await fetch(BaseURl);
-      const jsonData = await response.json();
+  const monthColors = [
+    "#FF6384", // January - Red
+    "#36A2EB", // February - Blue
+    "#FFCE56", // March - Yellow
+    "#4BC0C0", // April - Teal
+    "#9966FF", // May - Purple
+    "#FF9F40", // June - Orange
+    "#C9CBCF", // July - Gray
+    "#00A36C", // August - Green
+    "#FF6F91", // September - Pink
+    "#845EC2", // October - Indigo
+    "#2C73D2", // November - Sky Blue
+    "#F9C74F"  // December - Gold
+  ];
+  const monthLabels = [
+    "January", "February", "March", "April", "May", "June",
+    "July", "August", "September", "October", "November", "December"
+  ];
 
-      const Monthlabels = Object.keys(jsonData.month_wise).map(key => key.split(" ")[0]);
-      const Monthvalues = Object.values(jsonData.month_wise);
-       
 
-      setLabel(Monthlabels);
-      setValues(Monthvalues);
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const BaseURl = import.meta.env.VITE_BARCHART_URL;
+        const response = await fetch(BaseURl);
+        const jsonData = await response.json();
+        const sortedData = Object.entries(jsonData.month_wise).sort(([a], [b]) => { const parse = str => new Date(str); return parse(a) - parse(b) });
+        console.log(" is sorted" + sortedData);
 
-      console.log('Month Labels:', Monthlabels);
-      console.log('Values:', Monthvalues);
-    } catch (err) {
-      console.error(err);
-    }
-  };
+        const Monthlabels = Object.keys(jsonData.month_wise).map(key => key.split(" ")[0]);
+        const Monthvalues = Object.values(jsonData.month_wise);
 
-  fetchData();  
-}, []);
 
-  
+        setLabel(Monthlabels);
+        setValues(Monthvalues);
 
-  
+        // console.log('Month Labels:', Monthlabels);
+        // console.log('Values:', Monthvalues);
+      } catch (err) {
+        console.error(err);
+      }
+    };
+
+    fetchData();
+  }, []);
+
+
+
+
 
 
   return (
     <>
-    <section className='pl-3'>
-
-      <div  className="nav">
-        <div className="title  text-center max-lg:text-large">
-  <h1 className="text-xl lg:text-xl sm:text-xl font-extrabold">DashBoard Overview</h1>
 
 
-        </div>
-     
-    
-    
-      </div>
-    <div className="cards-container  flex flex-col lg:flex-row flex-nowrap justify-center w-full gap-6   md:flex-row  max-sm:pr-2 max-sm:pl-2">
+      <section className='pl-3'>
 
-        
-      
-          <div className="cards  bg-[#d9d9d9] h-80 rounded-3xl shadow-2xl p-6 mt-10 w-full sm:w-1/2 lg:w-1/3 cursor-pointer">
 
-            <div className="bill-header flex flex-col items-center mt-10">
-                <h2 className='text-2xl font-extrabold '>Total Bills</h2> 
-                 {/* <span className='text-4xl font-bold'><LuFileSpreadsheet/></span>       */}
-            </div>
-           
-            <div className="total-count mt-20 ">
-                <h1 className='text-bold font-semibold  text-3xl text-center '>123</h1>
-            </div>
-            
-        </div>
 
-           
- <div className="cards bg-[#d9d9d9] h-80 rounded-3xl shadow-2xl p-6 mt-10 w-full sm:w-1/2 lg:w-1/3 cursor-pointer">
-            <div className="bill-header flex flex-col items-center mt-10">
-                <h2 className='text-2xl font-extrabold'>Total Monthly</h2> 
-                 {/* <span className='text-4xl font-bold'><LuFileSpreadsheet/></span>       */}
-            </div>
-           
-            <div className="total-count mt-20 ">
-                <h1 className='text-bold font-semibold  text-3xl  text-center '>123</h1>
-            </div>
-            
-        </div>
-      
-      
-    
-     
-        
-      
-    
-            
-      <div className="cards bg-[#d9d9d9] h-80 rounded-3xl shadow-2xl p-6 mt-10 w-full sm:w-1/2 lg:w-1/3 cursor-pointer">
-            <div className="bill-header flex flex-col items-center mt-10">
-                <h2 className='text-2xl font-extrabold'></h2> 
-                 {/* <span className='text-4xl font-bold'><LuFileSpreadsheet/></span>       */}
-            </div>
-           
-            <div className="total-count mt-20 ">
-                <h1 className='text-bold font-semibold  text-3xl text-center  '></h1>
-            </div>
-            
-        </div>
-      
-      
-         
-       
-    
-      </div>
 
-    
-      {/* charts */}
-        <div className="ChartsContainer  flex flex-col lg:flex-row flex-nowrap justify-center w-full gap-6   md:flex-row  max-sm:pr-2 max-sm:pl-2">
-         <div className="barchart   bg-[#d9d9d9] h-80 rounded-3xl shadow-2xl p-6 mt-10 w-full sm:w-1/2 lg:w-1/3 cursor-pointer ">
-           <Bar 
-           data={{
-            labels:Labels,
+        <div className="nav">
+          <div className="title  text-center max-lg:text-large">
+            <h1 className="text-xl lg:text-xl sm:text-xl font-extrabold">DashBoard Overview</h1>
 
-            datasets:[
-              {
-                label:'Test Data',
-                data:values,
-                backgroundColor:'blue'
-              },
-             
-            ]
-            
-           }}
-            
-           
-           />
-         
-          
-         
-         </div>
-          <div className="barchart   bg-[#d9d9d9] h-80 rounded-3xl shadow-2xl p-6 mt-10 w-full sm:w-1/2 lg:w-1/3 cursor-pointer ">
-          <Doughnut
-            data={{
-              labels:['May','June','July'],
-              datasets:[
-                {label:'jan report',
-                  data:[20,30,40],
-                  backgroundColor:['yellow','cyan','blue']
 
-                },
-              
-              ]
-            }}
-          />
-         
-         
-         </div>
-          <div className="barchart   bg-[#d9d9d9] h-80 rounded-3xl shadow-2xl p-6 mt-10 w-full sm:w-1/2 lg:w-1/3 cursor-pointer ">
-           <Line data={{
-             labels:FakeData.map((data)=>data.label),
-             datasets:[
-              {
-                label:'Month wise Bills',
-                data:FakeData.map((data)=>data.revenue),
-                borderColor:'Red',
-                tension:1,
-                
-              }
-             ]
-             
-           }}
-           options={{
-               layout: {
-                padding: {
-                left: 0,
-                right: 0,
-               top: 10,
-               bottom: 10
-    }
-  }
-
-           }}/>
-              
-         
-         </div>
+          </div>
 
 
 
         </div>
-      
 
-     
+        <div className="bg-[#f0f6ff] px-1 mx-8 py-10">
+          <div className="max-w-6xl  grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            {/* Card 1 */}
+
+            <div className="bg-white p-6 rounded-2xl shadow-md border border-blue-100 flex items-center gap-4">
+              <div className="bg-blue-100 p-4 rounded-full text-blue-600">
+                <FaCalendarDay className="text-2xl" />
+              </div>
+              <div>
+                <h4 className="text-sm text-gray-500 font-medium">Daily Bill</h4>
+                <p className="text-2xl font-bold text-gray-800">234</p>
+              </div>
+            </div>
+
+            {/* Card 2 */}
+            <div className="bg-white p-6 rounded-2xl shadow-md border border-blue-100 flex items-center gap-4">
+              <div className="bg-blue-100 p-4 rounded-full text-blue-600">
+                <FaCalendarWeek className="text-2xl" />
+              </div>
+              <div>
+                <h4 className="text-sm text-gray-500 font-medium">Weekly Bill</h4>
+                <p className="text-2xl font-bold text-gray-800">233</p>
+              </div>
+            </div>
+            {/* Card 3 */}
+            <div className="bg-white p-6 rounded-2xl shadow-md border border-blue-100 flex items-center gap-4">
+              <div className="bg-blue-100 p-4 rounded-full text-blue-600">
+                <FaCalendarAlt className="text-2xl" />
+              </div>
+              <div>
+                <h4 className="text-sm text-gray-500 font-medium">Monthly Bills</h4>
+                <p className="text-2xl font-bold text-gray-800">123</p>
+              </div>
+            </div>
+          </div>
+        </div>
 
 
 
-     
-     
-    
-    </section>
+        <div className="w-full px-2 sm:px-6 lg:px-8 py-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
 
-    
+            {/* Bar Chart */}
+            <div className="bg-white rounded-2xl shadow-md p-4 hover:shadow-xl transition duration-300">
+              {/* <h3 className="text-lg font-semibold text-gray-800 mb-2">Bar Chart</h3> */}
+              <div className="h-64">
+                <Bar
+                  data={{
+                    labels: Labels,
+                    datasets: [
+                      {
+                        label: 'Test Data',
+                        data: values,
+                        backgroundColor: 'rgba(0, 24, 132, 0.8)', // tailwind blue-500
+                      },
+                    ],
+                  }}
+                  options={{
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                      x: {
+                        ticks: { autoSkip: false }
+                      }
+                    }
+                  }}
 
-     
-    
-    
+                />
+              </div>
+            </div>
+
+            {/* Doughnut Chart */}
+            <div className="bg-white rounded-2xl shadow-md p-4 hover:shadow-xl transition duration-300">
+              {/* <h3 className="text-lg font-semibold text-gray-800 mb-2">Doughnut Chart</h3> */}
+              <div className="h-64 flex items-center justify-center">
+                <Doughnut
+                  data={{
+                    labels: ['jan', 'feb', 'march'],
+                    datasets: [
+                      {
+                        label: 'months',
+                        data: ['20', '30', '40'],
+                        backgroundColor: monthColors,// yellow-400, cyan-400, blue-500
+                        borderColor: monthColors,
+                      },
+                    ],
+                  }}
+                  options={{
+                    responsive: true,
+                    maintainAspectRatio: false,
+                  }}
+                />
+              </div>
+            </div>
+
+            {/* Line Chart */}
+            <div className="bg-white rounded-2xl shadow-md p-4 hover:shadow-xl transition duration-300">
+              {/* <h3 className="text-lg font-semibold text-gray-800 mb-2">Line Chart</h3> */}
+              <div className="h-64">
+                <Line
+                  data={{
+                    labels: FakeData.map((d) => d.label),
+                    datasets: [
+                      {
+                        label: 'Month-wise Bills',
+                        data: FakeData.map((d) => d.revenue),
+                        borderColor: '#ef4444', // red-500
+                        backgroundColor: 'rgba(239, 68, 68, 0.2)',
+                        tension: 0.4,
+                        fill: true,
+                      },
+                    ],
+                  }}
+                  options={{
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                      x: {
+                        ticks: { autoSkip: false },
+                      },
+                    },
+                  }}
+                />
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+
+
+      </section>
+
+
+
+
+
+
     </>
   )
 }
 
-export default  HomeContainer;
+export default HomeContainer;
 
 
 
@@ -226,7 +248,7 @@ export default  HomeContainer;
 
 
 
-   {/* charts
+{/* charts
 
        <section className="charts mt-10">
         <div className="chartContainer flex max-lg:flex-row   max-sm:flex-col  max-sm:w-85 ">
@@ -266,7 +288,7 @@ export default  HomeContainer;
 
 
 
-      {/* <div className="cards-container  flex flex-col lg:flex-row flex-nowrap justify-center w-full gap-6   md:flex-row  max-sm:pr-2 max-sm:pl-2">
+{/* <div className="cards-container  flex flex-col lg:flex-row flex-nowrap justify-center w-full gap-6   md:flex-row  max-sm:pr-2 max-sm:pl-2">
 
           
       

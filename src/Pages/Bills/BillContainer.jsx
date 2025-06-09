@@ -1,13 +1,16 @@
 import React, { useState, useEffect } from 'react';
-import { FaStore } from "react-icons/fa6";
 
-import { LuFileSpreadsheet } from "react-icons/lu";
 // import "../../assets/Style/BillContainer.css"
 import { TablePagination } from '@mui/material';
 // import { Document, Page, pdfjs } from 'react-pdf';
 import BasicDatePicker from '../../Components/DatePicker/BasicDatePicker';
 import dayjs from 'dayjs';
-import "../../assets/Style/BillContainer.css"
+import { FaCalendarDay, FaCalendarWeek, FaCalendarAlt,FaDownload,FaEye } from "react-icons/fa";  
+import { LocalizationProvider } from "@mui/x-date-pickers";
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import { DatePicker } from "@mui/x-date-pickers/DatePicker";
+import TextField from "@mui/material/TextField";
+
 
 
 
@@ -16,6 +19,7 @@ import "../../assets/Style/BillContainer.css"
 
 const BillContainer = () => {
   const [Data,setdata]=useState(null); // used to store data from api 
+  
   const [page,setpage]=useState(0);//Current Page Index
   const [rowperPage,setRowsPerPage]=useState(10);// number of rows per page
   const [filterDate,setFilterDate]=useState(null);
@@ -42,10 +46,10 @@ const BillContainer = () => {
          }
          
          const jsonData = await response.json();
-         const daywise= jsonData.day_wise;
-        //  console.log(daywise);
+         const daywise= jsonData
+      
          setdata(jsonData)
-        // console.log(jsonData);
+      
 
 
         
@@ -57,13 +61,19 @@ const BillContainer = () => {
        }
 
        catch(err){
-         console.log( err+"IT is issue fetching an api")
+         console.log( err+"failed to fetch data");
        }
       };
 
       fetchdata();
       
   },[]);
+
+
+useEffect(()=>{
+
+},[]);
+
 
 
 const handleChangePage=(event,newpage)=>{ // handle page change
@@ -83,15 +93,16 @@ const handleChangePage=(event,newpage)=>{ // handle page change
 
 
   //Extract data flatten file data one single data
- const rows = Data
-  ? Object.entries(Data.day_wise).flatMap(([date, info]) =>
-      //  console.log(rows)
+const rows = Data
+  ? Object.entries(Data.day_wise)
+      .flatMap(([date, info]) =>
         info.files.map(file => ({
           name: file.split('/').pop(),
           date,
           file
         }))
-     )
+      )
+      .sort((a, b) => new Date(b.date) - new Date(a.date))
   : [];
 
   /// filter by date which wanted by the user
@@ -133,7 +144,9 @@ const FilterRows=rows.filter(rows=>
     const baseUrl = import.meta.env.VITE_DOWNLOAD_BASE_URL_2;
     const previewUrl = `${baseUrl}${row.file}`;
     const response= await fetch(previewUrl);
-
+    console.log("preview url",previewUrl);
+    console.log('After fetching of data',response);
+   
     if(!response.ok)throw new Error('failed to fetch the pdf');
   //  const Blob=await response.blob();
   // //  console.log("Blob:",Blob)
@@ -173,7 +186,7 @@ const FilterRows=rows.filter(rows=>
 
  return(
 <>
- <section className="Bill-Container ml-5">
+ <section className="Bill-Container ">
   <div  className="nav">
     <div className="title  text-center text-black-700 text-2xl font-extrabold mt-1   max-sm:text-sm">
         <h1>DashBoard Overview </h1>
@@ -183,52 +196,46 @@ const FilterRows=rows.filter(rows=>
 
   </div>
 
-  <div className="Bill-cards-container  flex flex-col lg:flex-row flex-nowrap justify-center w-full gap-6   md:flex-row  max-sm:pr-2 max-sm:pl-2">
- 
-    
-    <div className="Bill-cards   bg-[#d9d9d9] h-80 rounded-3xl shadow-2xl p-6 mt-10 w-full sm:w-1/2 lg:w-1/3 cursor-pointer">
-        <div className="bill-header flex flex-col items-center gap-4 mt-10  cursor-pointer">
-            <h1 className='text-2xl font-extrabold'>Daily Bills</h1>
-             <span style={{fontSize:'1.5rem'}}><LuFileSpreadsheet /></span> 
-        </div>
-        <div className="total-count mt-20 ">
-            <h1 className='text-bold font-semibold  text-3xl  text-center'>{Data && Data.day_wise['2025-05-08'] ? Data.day_wise['2025-05-08'].count : 0}</h1>
-        </div>
-        
-    </div>
-  
 
- 
-    
-    <div className="Bill-cards  cards bg-[#d9d9d9] h-80 rounded-3xl shadow-2xl p-6 mt-10 w-full sm:w-1/2 lg:w-1/3 cursor-pointer">
-        <div className="bill-header flex flex-col items-center gap-4 mt-10 ">
-            <h1 className=' text-2xl font-extrabold'>weekly Bills</h1>
-             <span style={{fontSize:'1.5rem'}}><LuFileSpreadsheet /></span>
-        </div>
-        <div className="total-count mt-20">
-            <h1 className=' text-bold font-semibold  text-3xl  text-center'>{Data && Data.week_wise['2025-W18'] ? Data.week_wise['2025-W18'] : 0}
-            </h1>
+   <div className="bg-[#f0f6ff] px-2 py-10">
+      <div className="max-w-6xl  grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        {/* Card 1 */}
+     
+           <div className="bg-white p-6 rounded-2xl shadow-md border border-blue-100 flex items-center gap-4">
+          <div className="bg-blue-100 p-4 rounded-full text-blue-600">
+            <FaCalendarDay className="text-2xl" />
+          </div>
+          <div>
+            <h4 className="text-sm text-gray-500 font-medium">Daily Bill</h4>
+            <p className="text-2xl font-bold text-gray-800">{Data && Data.day_wise['2025-06-06'] ? Data.day_wise['2025-06-06'].count : 0}</p>
+          </div>
         </div>
        
+        {/* Card 2 */}
+        <div className="bg-white p-6 rounded-2xl shadow-md border border-blue-100 flex items-center gap-4">
+          <div className="bg-blue-100 p-4 rounded-full text-blue-600">
+            <FaCalendarWeek className="text-2xl" />
+          </div>
+          <div>
+            <h4 className="text-sm text-gray-500 font-medium">Weekly Bill</h4>
+            <p className="text-2xl font-bold text-gray-800">{Data && Data.week_wise['2025-W22'] ? Data.week_wise['2025-W22'] : 0}</p>
+          </div>
         </div>
-
-         <div className="Bill-cards  cards bg-[#d9d9d9] h-80 rounded-3xl shadow-2xl p-6 mt-10 w-full sm:w-1/2 lg:w-1/3 cursor-pointer">
-        <div className="bill-header flex flex-col items-center gap-4 mt-10">
-            <h1 className='text-semibold font-extrabold  text-2xl  text-center' >Monthly</h1>
-             <span style={{fontSize:'1.5rem'}}><FaStore /></span>
+        {/* Card 3 */}
+           <div className="bg-white p-6 rounded-2xl shadow-md border border-blue-100 flex items-center gap-4">
+          <div className="bg-blue-100 p-4 rounded-full text-blue-600">
+            <FaCalendarAlt className="text-2xl" />
+          </div>
+          <div>
+            <h4 className="text-sm text-gray-500 font-medium">Monthly Bills</h4>
+            <p className="text-2xl font-bold text-gray-800">{Data && Data.month_wise['2025-06'] && Data.month_wise['2025-06']?Data.month_wise['2025-06']:0}</p>
+          </div>
         </div>
-        <div className="total-count mt-20">
-            <h1 className='text-bold font-semibold  text-3xl  text-center'>{Data && Data.month_wise['2025-05'] && Data.month_wise['2025-05']?Data.month_wise['2025-05']:0}</h1>
-        </div>
+      </div>
+    </div>
+ 
 
-        </div>
-    
-     
-   
-
-  </div>
-
-  <div className="Bills-table-container ">
+  {/* <div className="Bills-table-container ">
       <BasicDatePicker       value={filterDate} onChange={(newdate)=>setFilterDate(newdate)} />
      
      <table className='Bill-table'>
@@ -280,10 +287,101 @@ const FilterRows=rows.filter(rows=>
       
       />
      
-      </div>
+      </div> */}
 
   
 
+
+
+ <div className="px-6 mr-2 ml-2 py-6 bg-white rounded-2xl shadow-sm overflow-x-auto max-w-full">
+      {/* Date Picker with reduced margin */}
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between mb-4 gap-4">
+        <h2 className="text-xl font-semibold text-gray-800">Filter by Date</h2>
+        <LocalizationProvider dateAdapter={AdapterDayjs}>
+          <DatePicker
+            value={filterDate}
+            onChange={(newValue) => setFilterDate(newValue)}
+            renderInput={(params) => (
+              <TextField {...params} size="small" className="w-full sm:w-60" />
+            )}
+          />
+        </LocalizationProvider>
+      </div>
+
+      {/* Table */}
+      <table className="min-w-full divide-y divide-gray-200">
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Date</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody className="text-sm text-gray-700">
+  {paginatedRows.length > 0 ? (
+    paginatedRows.map((row, idx) => (
+      <tr
+        key={idx}
+        className="hover:bg-blue-50 transition-colors border-b border-gray-100"
+        
+      >
+        <td className="px-4 py-3">{row.name}</td>
+        <td className="px-4 py-3">{row.date}</td>
+        <td className="px-4 py-3">
+          <div className="flex items-center gap-4">
+            <button
+              onClick={() => handleClick("Preview", row)}
+              id="Preview"
+              title="Preview"
+              className="flex items-center gap-1 text-blue-600 hover:text-blue-800 transition-colors font-medium cursor-pointer"
+            >
+              <FaEye className="text-lg" />
+              <span className="hidden sm:inline">Preview</span>
+            </button>
+            <button
+              onClick={() => handleClick("Download", row)}
+              id="Download"
+              title="Download"
+              className="flex items-center gap-1 text-green-600 hover:text-green-800 transition-colors font-medium cursor-pointer"
+            >
+              <FaDownload className="text-lg" />
+              <span className="hidden sm:inline">Download</span>
+            </button>
+          </div>
+        </td>
+      </tr>
+    ))
+  ) : (
+    <tr>
+      <td colSpan={3} className="text-center py-6 text-gray-500 font-semibold">
+        No record found
+      </td>
+    </tr>
+  )}
+</tbody>
+      </table>
+
+      {/* Pagination */}
+      <div className="mt-6">
+        <TablePagination
+          component="div"
+          count={FilterRows.length}
+          page={page}
+          onPageChange={handleChangePage}
+          rowsPerPage={rowperPage}
+          onRowsPerPageChange={handleChangeRowperPage}
+          rowsPerPageOptions={[5, 10, 25]}
+          className="bg-white"
+        />
+      </div>
+    </div>
+
+
+
+
+    {/* Preview pdf */}
+
+    
 {showpreview && (
   <div className="fixed top-0 left-0 w-screen h-screen bg-black bg-opacity-60 flex justify-center items-center z-[9999]">
   <div className="w-[80%] h-[90%] bg-white rounded overflow-hidden relative  ">
@@ -305,8 +403,6 @@ const FilterRows=rows.filter(rows=>
 </div>
 
 )}
-
-
  </section>
 
  

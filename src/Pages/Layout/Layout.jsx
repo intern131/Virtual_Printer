@@ -8,9 +8,9 @@ const Layout = () => {
        <div className="layout-wrapper">
         <SideBar/>
          
-         <div className="main-content max-lg:pl-20 w-100">
+         <main className="flex-1 pt-4 px-1 lg:ml-64 transition-all duration-300">
          <Outlet />
-         </div>
+         </main>
             
       </div>
      

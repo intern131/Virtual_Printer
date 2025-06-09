@@ -1,13 +1,8 @@
-.Container.sidebar-open {
+.bill-Container.sidebar-open {
   margin-left: 240px; /* Same as sidebar width */
 }
 
-.excel-table-container {
-  border: none;
-}
-.excel-table-container h2 {
-  text-align: center;
-}
+
 
 .Bills-table-container {
   margin-left: 1rem;

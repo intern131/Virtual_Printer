@@ -5,7 +5,13 @@ import "../../assets/Style/Excel&BillContainer.css"
 import { TablePagination } from '@mui/material';
 import dayjs from 'dayjs';
 import BasicDatePicker from '../../Components/DatePicker/BasicDatePicker';
-import * as XLSX from "xlsx";
+import { LocalizationProvider } from "@mui/x-date-pickers";
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import { DatePicker } from "@mui/x-date-pickers/DatePicker";
+import TextField from "@mui/material/TextField";
+
+
+import { FaCalendarDay, FaCalendarWeek, FaCalendarAlt,FaDownload,FaEye } from "react-icons/fa"; 
 
 const ExcelContainer = () => {
   const [Data, setData] = useState([]);
@@ -19,7 +25,7 @@ const ExcelContainer = () => {
 
   useEffect(() => {
     const fetchdata = async () => {
-      const baseUrl = import.meta.env.VITE_DOWNLOAD_BASE_URL_EXCEL;
+      const baseUrl =import.meta.env.VITE_DOWNLOAD_BASE_URL_EXCEL;
       const Response = await fetch(baseUrl);
       if (!Response.ok) {
         throw new Error('Unable to fetch data');
@@ -31,35 +37,41 @@ const ExcelContainer = () => {
     fetchdata();
   }, [])
 
-  // Handle click logic 
+  // Handle click logic  
   const handleClick = async (action, row) => {
     console.log("hsndleClk")
-    console.log(row.filename)
+ 
 
     if (action === "Preview") {
 
     try{
-    const baseUrl = import.meta.env.VITE_DOWNLOAD_BASE_URL_EXCEL_PREVIEW;
+    const baseUrl = import.meta.env.VITE_DOWNLOAD_BASE_URL_EXCEL_Download;
     const previewUrl = `${baseUrl}${row.date.replace(/-/g,'/')}/invoices.xlsx`;
-    console.log(previewUrl);
-    const response= await fetch(previewUrl);
+    console.log("This is preview URl as seen",previewUrl);
+     const response=await fetch(previewUrl);
+     console
+    // const response= await fetch(previewUrl);
+    
 
-    if(!response.ok)throw new Error('failed to fetch the pdf');
+    // if(!response.ok)throw new Error('failed to fetch the pdf');
+    // console.log('This is preview ',previewUrl);
 
-    console.log("This is Reponse",response);
+    // console.log("This is Reponse",response);
+    // const blob = await response.blob();
+    // console.log('This Blob'+blob);
+  
 
-    const arrayBuffer=await response.arrayBuffer();
+    // const arrayBuffer=await blob.arrayBuffer();
 
     // console.log(arrayBuffer);
-    const workbook=XLSX.read(arrayBuffer,{type:'array'})
+    // const workbook=XLSX.read(arrayBuffer,{type:'array'})
 
-    const FirstSheetName=workbook.SheetNames[0];
-    const worksheet=workbook.Sheets[FirstSheetName];
+    // const FirstSheetName=workbook.SheetNames[0];
+    // const worksheet=workbook.Sheets[FirstSheetName];
+    // const data=XLSX.utils.sheet_to_json(worksheet,{header:1});
 
-    // coverting sheet to html table
-    const htmlstring=XLSX.utils.sheet_to_html(worksheet);
-     setPreviewHtml(htmlstring);
-     setpreview(true);
+    // setPreviewHtml(data);
+    // setpreview(true);
   
 
 // setpdfurl(newpreviewurl);
@@ -129,38 +141,129 @@ const ExcelContainer = () => {
             <h1>DashBoard Overview </h1>
           </div>
         </div>
+        {/* new Cards */}
 
-        <div className="Excel-cards-container  flex flex-col lg:flex-row flex-nowrap justify-center w-full gap-6   md:flex-row  max-sm:pr-2 max-sm:pl-2">
-          <div className="Excel-cards  cards bg-[#d9d9d9] h-80 rounded-3xl shadow-2xl p-6 mt-10 w-full sm:w-1/2 lg:w-1/3 cursor-pointer" >
-            <div className="bill-header flex flex-col items-center gap-4 mt-10  cursor-pointer">
-              <h3 className='text-xl font-extrabold'>Daily ExcelSheets</h3>
-              <span><LuFileSpreadsheet /></span>
-            </div>
-            <div className="total-count  mt-20 ">
-              <h1 className='text-bold font-semibold  text-3xl  text-center'>123</h1>
-            </div>
-          </div>
-          <div className="Excel-cards  cards bg-[#d9d9d9] h-80 rounded-3xl shadow-2xl p-6 mt-10 w-full sm:w-1/2 lg:w-1/3 cursor-pointer">
-            <div className="bill-header flex flex-col items-center gap-4 mt-10  cursor-pointer">
-              <h3 className='text-xl font-extrabold'>Weekly ExcelSheet</h3>
-              <span><LuFileSpreadsheet /></span>
-            </div>
-            <div className="total-count  mt-20 ">
-              <h1 className=' text-bold font-semibold  text-3xl  text-center'>123</h1>
-            </div>
-          </div>
-          <div className="Excel-cards  cards bg-[#d9d9d9] h-80 rounded-3xl shadow-2xl p-6 mt-10 w-full sm:w-1/2 lg:w-1/3 cursor-pointer">
-            <div className="bill-header flex flex-col items-center gap-4 mt-10  cursor-pointer ">
-              <h3 className='text-xl font-extrabold'>Monthly ExcelSheet</h3>
-              <span><FaStore /></span>
-            </div>
-            <div className="total-count  mt-20">
-              <h1 className=' text-bold font-semibold  text-3xl  text-center'>123</h1>
-            </div>
-          </div>
-        </div>
+         <div className="bg-[#f0f6ff] px-1 mx-5 py-10">
+                    <div className="max-w-6xl  grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                      {/* Card 1 */}
+                   
+                         <div className="bg-white p-6 rounded-2xl shadow-md border border-blue-100 flex items-center gap-4">
+                        <div className="bg-blue-100 p-4 rounded-full text-blue-600">
+                          <FaCalendarDay className="text-2xl" />
+                        </div>
+                        <div>
+                          <h4 className="text-sm text-gray-500 font-medium">Daily Bill</h4>
+                          <p className="text-2xl font-bold text-gray-800">234</p>
+                        </div>
+                      </div>
+                     
+                      {/* Card 2 */}
+                      <div className="bg-white p-6 rounded-2xl shadow-md border border-blue-100 flex items-center gap-4">
+                        <div className="bg-blue-100 p-4 rounded-full text-blue-600">
+                          <FaCalendarWeek className="text-2xl" />
+                        </div>
+                        <div>
+                          <h4 className="text-sm text-gray-500 font-medium">Weekly Bill</h4>
+                          <p className="text-2xl font-bold text-gray-800">233</p>
+                        </div>
+                      </div>
+                      {/* Card 3 */}
+                         <div className="bg-white p-6 rounded-2xl shadow-md border border-blue-100 flex items-center gap-4">
+                        <div className="bg-blue-100 p-4 rounded-full text-blue-600">
+                          <FaCalendarAlt className="text-2xl" />
+                        </div>
+                        <div>
+                          <h4 className="text-sm text-gray-500 font-medium">Monthly Bills</h4>
+                          <p className="text-2xl font-bold text-gray-800">123</p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
 
-        <div className="excel-table-container ">
+        {/* New table */}
+   <div className="px-4 md:px-6 py-6 bg-white rounded-2xl shadow-md overflow-x-auto max-w-full">
+  {/* Heading + Date Picker */}
+  <div className="flex flex-col sm:flex-row sm:items-center justify-between mb-4 gap-4">
+    <h2 className="text-xl font-semibold text-gray-800">Filter by Date</h2>
+    <LocalizationProvider dateAdapter={AdapterDayjs}>
+      <DatePicker
+        value={FilterDate}
+        onChange={(newValue) => setFilterData(newValue)}
+        renderInput={(params) => (
+          <TextField {...params} size="small" className="w-full sm:w-64" />
+        )}
+      />
+    </LocalizationProvider>
+  </div>
+
+  {/* Table */}
+  <table className="min-w-full text-sm text-left text-gray-700 border border-gray-200 rounded-lg overflow-hidden">
+    <thead className="bg-[#30336B] text-white text-sm">
+      <tr>
+        <th className="px-4 py-3 w-1/3">Date</th>
+        <th className="px-4 py-3 w-1/3">File Name</th>
+        <th className="px-4 py-3 w-1/3">Action</th>
+      </tr>
+    </thead>
+    <tbody className="bg-white divide-y divide-gray-100">
+      {paginatedRows.length > 0 ? (
+        paginatedRows.map((row, idx) => (
+          <tr key={idx} className="hover:bg-gray-50 transition">
+            <td className="px-4 py-3">{row.date}</td>
+            <td className="px-4 py-3">{row.filename}</td>
+            <td className="px-4 py-3">
+              <div className="flex flex-wrap gap-3">
+                <button
+                  onClick={() => handleClick("Preview", row)}
+                  id="Preview"
+                  title="Preview"
+                  className="flex items-center gap-1 text-blue-600 hover:text-blue-800 transition font-medium"
+                >
+                  <FaEye className="text-lg" />
+                  <span className="hidden sm:inline">Preview</span>
+                </button>
+                <button
+                  onClick={() => handleClick("Download", row)}
+                  id="Download"
+                  title="Download"
+                  className="flex items-center gap-1 text-green-600 hover:text-green-800 transition font-medium"
+                >
+                  <FaDownload className="text-lg" />
+                  <span className="hidden sm:inline">Download</span>
+                </button>
+              </div>
+            </td>
+          </tr>
+        ))
+      ) : (
+        <tr>
+          <td colSpan={3} className="text-center py-6 text-gray-500 font-semibold">
+            No record found
+          </td>
+        </tr>
+      )}
+    </tbody>
+  </table>
+
+  {/* Pagination */}
+  <div className="mt-4">
+    <TablePagination
+      component="div"
+      count={FilterRows.length}
+      page={page}
+      onPageChange={handleChangePage}
+      rowsPerPage={RowperPage}
+      onRowsPerPageChange={handleChangeRowperPage}
+      rowsPerPageOptions={[5, 10, 25]}
+      className="bg-white"
+    />
+  </div>
+</div>
+
+         
+        {/* New table */}
+
+        {/* <div className="excel-table-container ">
           <BasicDatePicker value={FilterDate} onChange={(newdate) => setFilterData(newdate)} />
 
           <h2>Excel</h2>
@@ -204,7 +307,7 @@ const ExcelContainer = () => {
             onRowsPerPageChange={handleChangeRowperPage}
             rowsPerPageOptions={[5, 10, 25]}
           />
-        </div>
+        </div> */}
 
        {showpreview && (
   <div className="fixed top-0 left-0 w-screen h-screen bg-black bg-opacity-70 flex justify-center items-center z-50">
