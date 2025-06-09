@@ -1,8 +1,16 @@
-main {
-  display: flex;
-  flex-direction: column;
+body{
+ background-color:#f0f6ff
 }
 
-body {
-  background-color: #FFF8E1;
+@import "tailwindcss"
+
+
+
+
+/* * {
+  caret-color: transparent;
 }
+* html, * body {
+  width: 100%;
+  height: 100%;
+} */ 

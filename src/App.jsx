@@ -6,6 +6,7 @@ import ExcelSheets from './Pages/ExcelSheet/Excel'
 import Home from './Pages/Home/Home'
 import Bills from "./Pages/Bills/Bills"
 import Layout from './Pages/Layout/Layout';
+import "./assets/Style/Tailwind.css"
 
 
 

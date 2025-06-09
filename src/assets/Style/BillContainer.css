@@ -1,26 +1,14 @@
-.Excel-Container {
-  width: 100%;
-  
-}
-.Excel-Container .nav {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  overflow-x: hidden;
-}
-
-.Excel-Container.sidebar-open {
+.bill-Container.sidebar-open {
   margin-left: 240px; /* Same as sidebar width */
 }
 
-.excel-table-container {
-  border: none;
-}
-.excel-table-container h2 {
-  text-align: center;
+
+
+.Bills-table-container {
+  margin-left: 1rem;
 }
 
-.excel-table {
+.Bill-table {
   width: 100%;
   border-collapse: collapse;
 }
@@ -78,22 +66,26 @@ th {
 }
 
 @media (max-width: 480px) {
-  .excel-table-container {
+  .Container.sidebar-open {
+    margin-left: 240px; /* Same as sidebar width */
+  }
+  .Bill-table-container {
     padding: 1rem;
-    margin-top: 1rem;
     background-color: #fffdf7;
     border: 1px solid #e0e0e0;
     border-radius: 8px;
     box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
     overflow-x: auto;
-    width: 100%;
+    width: 90%;
+    margin-right: 1rem;
   }
-  .excel-table-container .action-buttons {
+  .Bill-table .action-buttons {
     display: flex;
-    gap: 0.2rem;
+    gap: 1rem;
     justify-content: flex-start;
     align-items: center;
     flex-direction: column;
+    width: fit-content;
   }
   tr {
     border: 1px solid #ccc;
