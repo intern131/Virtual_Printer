@@ -1,6 +1,9 @@
 body{
  background-color:#f0f6ff
 }
+* {
+  caret-color: transparent;
+}
 
 @import "tailwindcss"
 

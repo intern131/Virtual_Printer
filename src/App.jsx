@@ -7,7 +7,9 @@ import Home from './Pages/Home/Home'
 import Bills from "./Pages/Bills/Bills"
 import Layout from './Pages/Layout/Layout';
 import "./assets/Style/Tailwind.css"
-
+import { Toaster } from "sonner"
+import LoginPage from './Pages/LoginPage/LoginPage';
+import Authorization from './Pages/LoginPage/Authorization';
 
 
 
@@ -15,17 +17,24 @@ const App = () => {
 
 
   return (
-   
+      <>
+       <Toaster richColors position="top-center" />
     <Routes>
-      <Route path="/" element={<Layout />}>
-      <Route index element={<Home/>}/>
-      <Route path="Bills" element={<Bills />} />
-      <Route path="ExcelSheets" element={<ExcelSheets />} />
-      </Route>
-      <Route path="*" element={<Usererror />} />
+        <Route path='/' element={<LoginPage/>}/>
+
+    <Route element={<Authorization />}>
+  <Route path="/dashboard" element={<Layout />}>
+    <Route index element={<Home />} />
+    <Route path="bills" element={<Bills />} />
+    <Route path="excelsheets" element={<ExcelSheets />} />
+  </Route>
+</Route>
+
+
     
+    <Route path="*" element={<Usererror />} />
   </Routes>
-      
+      </>
     
   )
 }

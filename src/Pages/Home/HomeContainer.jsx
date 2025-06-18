@@ -23,7 +23,7 @@ const HomeContainer = () => {
   const [newlabel, setnewLabel] = useState([]);
   const [newvalues, setnewValues] = useState([]);
 
-  const monthColors = [
+const monthColors = [
     "#FF6384", // January - Red
     "#36A2EB", // February - Blue
     "#FFCE56", // March - Yellow
@@ -85,7 +85,7 @@ const HomeContainer = () => {
 
         <div className="nav">
           <div className="title  text-center max-lg:text-large">
-            <h1 className="text-xl lg:text-xl sm:text-xl font-extrabold">DashBoard Overview</h1>
+            <h1 className="text-xl lg:text-xl sm:text-xl font-extrabold max-sm:text-2xl max-sm:font-semibold">DashBoard Overview</h1>
 
 
           </div>
@@ -226,11 +226,6 @@ const HomeContainer = () => {
 
 
       </section>
-
-
-
-
-
 
     </>
   )

@@ -48,8 +48,26 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { CiMenuBurger } from 'react-icons/ci';
 import { Link, useLocation } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 const Sidebar = () => {
+
+  const navigate = useNavigate(); // Add this
+
+  const handleLogout = (e) => {
+    e.preventDefault();
+    if(window.confirm('Are Sure to logout')){
+    
+         localStorage.removeItem('token');
+        navigate('/');
+    }
+    else{
+      
+    }
+ 
+  };
+
+
   const [isOpen, setIsOpen] = useState(false);
   const sidebarRef = useRef(null);
   const location = useLocation();
@@ -78,10 +96,10 @@ const Sidebar = () => {
   }, [location.pathname]);
 
   const navLinks = [
-    { name: 'Dashboard', to: '/' },
-    { name: 'Bills', to: '/Bills' },
-    { name: 'Excel Sheets', to: '/ExcelSheets' },
-    { name: 'Logout', to: '/Usererror' }
+    { name: 'Dashboard', to: '/dashboard' },
+    { name: 'Bills', to: '/dashboard/bills' },
+    { name: 'Excel Sheets', to: '/dashboard/ExcelSheets' },
+
   ];
 
   return (
@@ -103,9 +121,8 @@ const Sidebar = () => {
       {/* Sidebar */}
       <aside
         ref={sidebarRef}
-        className={`fixed top-0 left-0 h-full w-64 bg-[#30336B] text-white z-50 transform transition-transform duration-300 ease-in-out ${
-          isOpen ? 'translate-x-0' : '-translate-x-full'
-        } lg:translate-x-0`}
+        className={`fixed top-0 left-0 h-full w-64 bg-[#30336B] text-white z-50 transform transition-transform duration-300 ease-in-out ${isOpen ? 'translate-x-0' : '-translate-x-full'
+          } lg:translate-x-0`}
       >
         {/* Logo */}
         <div className="p-6 border-b border-white/10 flex justify-center ">
@@ -122,16 +139,20 @@ const Sidebar = () => {
             <Link
               key={link.to}
               to={link.to}
-              className={`hover:bg-white hover:text-[#30336B] px-4 py-2 rounded transition-colors ${
-                location.pathname === link.to
+              className={`hover:bg-white hover:text-[#30336B] px-4 py-2 rounded transition-colors ${location.pathname === link.to
                   ? 'bg-white text-[#30336B]'
                   : ''
-              }`}
+                }`}
             >
               {link.name}
             </Link>
           ))}
+          <button
+            onClick={handleLogout}
+            className="text-left hover:bg-white hover:text-[#30336B] px-4 py-2 rounded transition-colors cursor-pointer"
+          >Logout</button>
         </nav>
+
       </aside>
     </>
   );
