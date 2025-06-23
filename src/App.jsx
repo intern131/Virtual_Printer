@@ -10,6 +10,7 @@ import "./assets/Style/Tailwind.css"
 import { Toaster } from "sonner"
 import LoginPage from './Pages/LoginPage/LoginPage';
 import Authorization from './Pages/LoginPage/Authorization';
+import Vendor from './Pages/Vendors/Vendor';
 
 
 
@@ -27,6 +28,7 @@ const App = () => {
     <Route index element={<Home />} />
     <Route path="bills" element={<Bills />} />
     <Route path="excelsheets" element={<ExcelSheets />} />
+    <Route path='Vendors' element={<Vendor/>}/>
   </Route>
 </Route>
 

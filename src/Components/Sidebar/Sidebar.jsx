@@ -54,6 +54,14 @@ const Sidebar = () => {
 
   const navigate = useNavigate(); // Add this
 
+  // checktoken is present or not
+  const checktoken= ()=>{
+    const token=localStorage.getItem('token');
+    if(!token){
+      <navigate to ='/'/>
+    }
+  }
+
   const handleLogout = (e) => {
     e.preventDefault();
     if(window.confirm('Are Sure to logout')){
@@ -99,6 +107,7 @@ const Sidebar = () => {
     { name: 'Dashboard', to: '/dashboard' },
     { name: 'Bills', to: '/dashboard/bills' },
     { name: 'Excel Sheets', to: '/dashboard/ExcelSheets' },
+    { name: 'vendors', to: '/dashboard/Vendors'}
 
   ];
 
@@ -143,6 +152,7 @@ const Sidebar = () => {
                   ? 'bg-white text-[#30336B]'
                   : ''
                 }`}
+                onClick={checktoken}
             >
               {link.name}
             </Link>
