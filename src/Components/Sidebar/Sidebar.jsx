@@ -104,10 +104,11 @@ const Sidebar = () => {
   }, [location.pathname]);
 
   const navLinks = [
-    { name: 'Dashboard', to: '/dashboard' },
-    { name: 'Bills', to: '/dashboard/bills' },
-    { name: 'Excel Sheets', to: '/dashboard/ExcelSheets' },
-    { name: 'vendors', to: '/dashboard/Vendors'}
+    { name: 'Dashboard', to: '/admin' },
+    { name: 'Bills', to: '/admin/bills' },
+    { name: 'Excel Sheets', to: '/admin/ExcelSheets' },
+    { name: 'vendors', to: '/admin/Vendors'},
+    {name: 'VendorBill', to:'/admin/'}
 
   ];
 

@@ -64,6 +64,8 @@ const BillContainer = () => {
   }, []);
 
 
+  
+
 
   const handleChangePage = (event, newpage) => { // handle page change
     setpage(newpage);
@@ -226,9 +228,10 @@ const BillContainer = () => {
 
         <div className="px-2 lg:px-4 py-6  bg-white rounded-2xl shadow-sm overflow-x-auto max-w-full">
           {/* Date Range Picker */}
-          <div className="flex flex-row sm:flex-col sm:items-center justify-between mb-4 gap-4">
+          <div className="flex flex-row sm:flex-col sm:items-center align-middle mb-4 gap-4 w-fit md:flex-row  ">
 
-            <DateRangePickers value={dateRange} onChange={setDateRange} />
+            <DateRangePickers  value={dateRange} onChange={setDateRange} />
+            <button className='text-sm px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600 transition w-fit cursor-pointer'   onClick={() => setDateRange([null, null])}>Reset</button>
           </div>
 
           {/* Table */}

@@ -1,11 +1,16 @@
-  import React, { useState } from 'react'
+  import React, { useContext, useState } from 'react'
   import { useNavigate } from 'react-router-dom';
   import { toast } from "sonner"
   import { useEffect } from 'react';
+import { Authcontext } from './AuthProvider';
+import axios from 'axios';
 
   const LoginPage = () => {
   const [User,setUser]=useState('');
   const [Password,setPassword]=useState('');
+ const {login}=useContext(Authcontext);
+ const {token}=useContext(Authcontext);
+
   const navigate=useNavigate();
   
   const handlelogin=async(e)=>{
@@ -14,43 +19,70 @@
     const passwordtrim=Password.trim()
     try{
     
-      const response = await fetch('http://192.168.29.78:5000/login', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({
-            username: Usertrim,
-            password: passwordtrim,
-          }),
-        });
+      // const response = await fetch('http://192.168.29.78:5000/login', {
+      //     method: 'POST',
+      //     headers: {
+      //       'Content-Type': 'application/json',
+      //     },
+      //     body: JSON.stringify({
+            
+      //     }),
+      //   });
         
-        const data=await response.json();
+      const response = await axios.post("http://192.168.29.78:5000/login",{username: Usertrim,
+            password: passwordtrim,})
+        const data=response.data
       //   console.log(data);
         
-        const {token}=data;
+        const {token ,role}=data;
+       if(token && role){
+         login(token,role);
+         if(role==='admin'){
+          navigate('/admin');
 
-      if(token){
-          localStorage.setItem('token',token);
-          navigate('/dashboard');
-      }
-      else{
-      toast.error('Invaild credentials');
-      }
-      
+         }
+         else if( role==='vendor'){
+          navigate('/user');
+         }
+         else{
+          navigate('/')
+          toast.error('Invaild credential');
+         }
+        
+         
+       }
+
       
     }
     catch(err){
       console.error('Login Error',err);
+      toast.error('Login Failed');  
+
     }
   }
 
     useEffect(() => {
-      const token = localStorage.getItem('token');
       if (token) {
-        //navigate('/dashboard'); // or '/home'
+        try {
+          const payload = JSON.parse(atob(token.split('.')[1]));
+          const isValid = Date.now() < payload.exp * 1000;
+          const role = localStorage.getItem("role");
+
+          if (isValid) {
+            if (role === 'admin') navigate('/admin');
+            else if (role === 'vendor') navigate('/user');
+          } else {
+            localStorage.removeItem('token');
+            localStorage.removeItem('role');
+          }
+        } catch {
+          localStorage.removeItem('token');
+          localStorage.removeItem('role');
+        }
       }
-    }, [navigate]);
+    }, []);
+  
+
 
 
 
