@@ -4,6 +4,7 @@ import { Bar, Doughnut, Line } from 'react-chartjs-2'
 import FakeData from '../../Components/FakeData';
 import { FaCalendarDay, FaCalendarWeek, FaCalendarAlt, FaDownload, FaEye } from "react-icons/fa";
 import { useState,useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 defaults.maintainAspectRatio = false
 defaults.responsive = true;
@@ -13,6 +14,7 @@ defaults.plugins.title.font.size = 20;
 defaults.plugins.title.color = 'black';
 
 const VendorHome = () => {
+    const navigate=useNavigate();
 
 
      const [Labels, setLabel] = useState([]);
@@ -65,6 +67,11 @@ const VendorHome = () => {
     
         fetchData();
       }, []);
+
+      const handlenavigation=()=>{
+        navigate('/user/VendorBill');
+
+      }
     
   return (
     <>
@@ -88,7 +95,7 @@ const VendorHome = () => {
                   <div className="max-w-6xl  grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
                       {/* Card 1 */}
 
-                      <div className="bg-white p-6 rounded-2xl shadow-md border border-blue-100 flex items-center gap-4">
+                      <div className="bg-white p-6 rounded-2xl shadow-md border border-blue-100 flex items-center gap-4 cursor-pointer" onClick={handlenavigation}>
                           <div className="bg-blue-100 p-4 rounded-full text-blue-600">
                               <FaCalendarDay className="text-2xl" />
                           </div>
@@ -99,7 +106,7 @@ const VendorHome = () => {
                       </div>
 
                       {/* Card 2 */}
-                      <div className="bg-white p-6 rounded-2xl shadow-md border border-blue-100 flex items-center gap-4">
+                      <div className="bg-white p-6 rounded-2xl shadow-md border border-blue-100 flex items-center gap-4 cursor-pointer" onClick={handlenavigation}>
                           <div className="bg-blue-100 p-4 rounded-full text-blue-600">
                               <FaCalendarWeek className="text-2xl" />
                           </div>
@@ -109,7 +116,7 @@ const VendorHome = () => {
                           </div>
                       </div>
                       {/* Card 3 */}
-                      <div className="bg-white p-6 rounded-2xl shadow-md border border-blue-100 flex items-center gap-4">
+                      <div className="bg-white p-6 rounded-2xl shadow-md border border-blue-100 flex items-center gap-4 cursor-pointer" onClick={handlenavigation}>
                           <div className="bg-blue-100 p-4 rounded-full text-blue-600">
                               <FaCalendarAlt className="text-2xl" />
                           </div>

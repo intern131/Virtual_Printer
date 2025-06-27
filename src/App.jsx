@@ -4,7 +4,7 @@
 
   import LoginPage from './Pages/LoginPage/LoginPage';
   import Authorization from './Pages/LoginPage/Authorization';
-  import UserAuthorization from './Pages/LoginPage/UserAuthorization';
+
 
   import Layout from './Pages/Layout/Layout';
   import Home from './Pages/Home/Home';
@@ -15,6 +15,7 @@
   import Usererror from './Components/Usererror';
   import VendorBill from './Pages/VendorPages/VendorBill';
   import VendorHome from './Pages/VendorPages/VendorHome';
+  import VendorLayout from './Pages/Layout/VendorLayout'
 
   const App = () => {
     return (
@@ -37,9 +38,10 @@
             </Route>
 
             {/* VendorRoutes */}
-              <Route path="/user" element={<VendorHome />}>
-                <Route path="VendorBill" element={<VendorBill />} />
-              </Route>
+            <Route path='/user' element={<VendorLayout />}>
+              <Route index element={<VendorHome />} />
+              <Route path="VendorBill" element={<VendorBill />} />
+            </Route>
             
 
           </Route>

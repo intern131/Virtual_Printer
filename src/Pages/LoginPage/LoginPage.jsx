@@ -32,17 +32,19 @@ import axios from 'axios';
       const response = await axios.post("http://192.168.29.78:5000/login",{username: Usertrim,
             password: passwordtrim,})
         const data=response.data
-      //   console.log(data);
+        console.log(data);
         
-        const {token ,role}=data;
+        const {token ,role,message}=data;
        if(token && role){
          login(token,role);
          if(role==='admin'){
           navigate('/admin');
+          toast.success(`Welcome admin  ${message}`);
 
          }
          else if( role==='vendor'){
           navigate('/user');
+          toast.success(`welcome User ${message}`)
          }
          else{
           navigate('/')

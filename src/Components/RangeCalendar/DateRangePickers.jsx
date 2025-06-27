@@ -20,7 +20,6 @@ export default function DateRangePickers({ value, onChange }) {
               textField: {
                 size: "medium",
                 fullWidth: true,
-                disableClearable: true,
                 InputProps: {
                   startAdornment: <FaCalendarAlt className="mr-2" />,
                 },
@@ -39,7 +38,7 @@ export default function DateRangePickers({ value, onChange }) {
               textField: {
                 size: "medium",
                 fullWidth: true,
-                disableClearable: true,
+                
                 InputProps: {
                   startAdornment: <FaCalendarAlt className="mr-2" />,
                 },

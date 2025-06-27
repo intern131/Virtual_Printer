@@ -9,6 +9,7 @@ import { Chart as ChartJS, defaults } from 'chart.js/auto';
 import { Bar, Doughnut, Line } from 'react-chartjs-2'
 import FakeData from '../../Components/FakeData';
 import { FaCalendarDay, FaCalendarWeek, FaCalendarAlt, FaDownload, FaEye } from "react-icons/fa";
+import { useNavigate } from 'react-router-dom';
 
 defaults.maintainAspectRatio = false
 defaults.responsive = true;
@@ -18,6 +19,8 @@ defaults.plugins.title.font.size = 20;
 defaults.plugins.title.color = 'black';
 
 const HomeContainer = () => {
+const navigate=useNavigate()
+
   const [Labels, setLabel] = useState([]);
   const [values, setValues] = useState([]);
   const [newlabel, setnewLabel] = useState([]);
@@ -69,20 +72,15 @@ const monthColors = [
     fetchData();
   }, []);
 
-
-
-
-
+  const handlenavigate=(e)=>{
+   e.preventDefault();
+   navigate('/admin/bills');
+  }
 
   return (
     <>
 
-
       <section className='pl-3'>
-
-
-
-
         <div className="nav">
           <div className="title  text-center max-lg:text-large">
             <h1 className="text-xl lg:text-xl sm:text-xl font-extrabold max-sm:text-2xl max-sm:font-semibold">DashBoard Overview</h1>
@@ -94,11 +92,11 @@ const monthColors = [
 
         </div>
 
-        <div className="bg-[#f0f6ff] px-1 mx-8 py-10">
-          <div className="max-w-6xl  grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="bg-[#f0f6ff] px-2 md:mx-8 py-10">
+          <div className="max-w-6xl grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
             {/* Card 1 */}
 
-            <div className="bg-white p-6 rounded-2xl shadow-md border border-blue-100 flex items-center gap-4">
+            <div className="bg-white p-6 rounded-2xl shadow-md border border-blue-100 flex items-center gap-4 cursor-pointer" onClick={handlenavigate}>
               <div className="bg-blue-100 p-4 rounded-full text-blue-600">
                 <FaCalendarDay className="text-2xl" />
               </div>
@@ -109,7 +107,7 @@ const monthColors = [
             </div>
 
             {/* Card 2 */}
-            <div className="bg-white p-6 rounded-2xl shadow-md border border-blue-100 flex items-center gap-4">
+            <div className="bg-white p-6 rounded-2xl shadow-md border border-blue-100 flex items-center gap-4 cursor-pointer" onClick={handlenavigate}>
               <div className="bg-blue-100 p-4 rounded-full text-blue-600">
                 <FaCalendarWeek className="text-2xl" />
               </div>
@@ -119,7 +117,7 @@ const monthColors = [
               </div>
             </div>
             {/* Card 3 */}
-            <div className="bg-white p-6 rounded-2xl shadow-md border border-blue-100 flex items-center gap-4">
+            <div className="bg-white p-6 rounded-2xl shadow-md border border-blue-100 flex items-center gap-4 cursor-pointer" onClick={handlenavigate}>
               <div className="bg-blue-100 p-4 rounded-full text-blue-600">
                 <FaCalendarAlt className="text-2xl" />
               </div>

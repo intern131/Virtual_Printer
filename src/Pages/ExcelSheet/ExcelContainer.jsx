@@ -87,19 +87,7 @@ const ExcelContainer = () => {
     }
 
 
-
-
-
-
-
-
-
   }
-
-
-
-
-
 
   // Handle click logic  
   const handleClick = async (row) => {
@@ -226,7 +214,7 @@ const ExcelContainer = () => {
 
         {/* New table */}
 
-        <div className="px-2 lg:px-4 py-6 bg-white rounded-2xl shadow-md overflow-x-auto max-w-full">
+        <div className="px-2 mx-2 my-5 lg:px-4 py-6 bg-white rounded-2xl shadow-md overflow-x-auto max-w-full">
           {/* Heading + Date Range Picker */}
           <div className="flex flex-col md:flex-row lg:items-center justify-between gap-4 mb-6 ">
             <div className="flex  justify-center lg:justify-start max-sm:hidden">
@@ -286,7 +274,7 @@ const ExcelContainer = () => {
                         <button
                           onClick={() => handleClick(row)}
                           id="Download"
-                          title="Download"
+          title="Download"
                           className="flex items-center gap-1 text-green-600 hover:text-green-800 transition font-medium cursor-pointer"
                         >
                           <FaDownload className="text-lg" />

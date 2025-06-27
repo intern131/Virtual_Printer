@@ -64,7 +64,7 @@ const BillContainer = () => {
   }, []);
 
 
-  
+
 
 
   const handleChangePage = (event, newpage) => { // handle page change
@@ -200,13 +200,25 @@ const BillContainer = () => {
               </div>
               <div>
                 <h4 className="text-sm text-gray-500 font-medium">Weekly Bill</h4>
-                {carddata?.month_wise &&
-                  Object.entries(carddata.week_wise).map(([date, value]) => (
-                    <p key={date} className="text-2xl font-bold text-gray-800">{value}</p>
-                  ))
-                }
+                {carddata?.week_wise && (() => {
+                  const entries = Object.entries(carddata.week_wise);
+                  if (entries.length === 0) return null;
+
+                  // Sort descending by week string key
+                  const sorted = entries.sort((a, b) => b[0].localeCompare(a[0]));
+                  const [latestWeek, latestValue] = sorted[0];
+                  // console.log( 'Latest week value ' ,latestValue);
+
+
+                  return (
+                    <p key={latestWeek} className="text-2xl font-bold text-gray-800">
+                      {latestValue}
+                    </p>
+                  );
+                })()}
               </div>
             </div>
+
             {/* Card 3 */}
             <div className="bg-white p-6 rounded-2xl shadow-md border border-blue-100 flex items-center gap-4">
               <div className="bg-blue-100 p-4 rounded-full text-blue-600">
@@ -214,11 +226,19 @@ const BillContainer = () => {
               </div>
               <div>
                 <h4 className="text-sm text-gray-500 font-medium">Monthly Bills</h4>
-                {carddata?.week_wise &&
-                  Object.entries(carddata.month_wise).map(([date, value]) => (
-                    <p key={date} className="text-2xl font-bold text-gray-800">{value}</p>
-                  ))
-                }
+                {carddata?.month_wise && (() => {
+                  const entries = Object.entries(carddata.month_wise);
+                  if (entries.length === 0) return null;
+
+                  // Sort by month descending and get the latest one
+                  const [latestMonth, latestValue] = entries.sort((a, b) => b[0].localeCompare(a[0]))[0];
+
+                  return (
+                    <p key={latestMonth} className="text-2xl font-bold text-gray-800">
+                      {latestValue}
+                    </p>
+                  );
+                })()}
               </div>
             </div>
           </div>
@@ -226,12 +246,16 @@ const BillContainer = () => {
 
 
 
-        <div className="px-2 lg:px-4 py-6  bg-white rounded-2xl shadow-sm overflow-x-auto max-w-full">
+        <div className="px-2 mx-2 my-5 lg:px-4 py-6  bg-white rounded-2xl shadow-sm overflow-x-auto max-w-full">
           {/* Date Range Picker */}
-          <div className="flex flex-row sm:flex-col sm:items-center align-middle mb-4 gap-4 w-fit md:flex-row  ">
+          <div className="flex flex-row max-sm:flex-col sm:items-center align-middle mb-4 gap-4  md:flex-row  justify-center md:w-fit ">
 
-            <DateRangePickers  value={dateRange} onChange={setDateRange} />
-            <button className='text-sm px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600 transition w-fit cursor-pointer'   onClick={() => setDateRange([null, null])}>Reset</button>
+            <DateRangePickers value={dateRange} onChange={setDateRange} />
+            <button className='max-sm:hidden text-sm px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600 transition w-fit cursor-pointer ' onClick={() => setDateRange([null, null])}>Reset</button>
+            
+            <button className='md:hidden text-sm px-4 py-3 bg-red-500 text-white rounded hover:bg-red-600 transition w-fit cursor-pointer mx-auto  ' onClick={() => setDateRange([null, null])}>Reset</button>
+
+            
           </div>
 
           {/* Table */}
