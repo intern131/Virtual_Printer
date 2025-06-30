@@ -26,7 +26,6 @@
           {/* public path */}
           <Route path='/' element={<LoginPage />} />
           <Route element={<Authorization />}>
-
   {/* admin route */}
             <Route path="/admin" element={<Layout />}>
               <Route index element={<Home />} />

@@ -18,16 +18,6 @@ import axios from 'axios';
     const Usertrim=User.trim();
     const passwordtrim=Password.trim()
     try{
-    
-      // const response = await fetch('http://192.168.29.78:5000/login', {
-      //     method: 'POST',
-      //     headers: {
-      //       'Content-Type': 'application/json',
-      //     },
-      //     body: JSON.stringify({
-            
-      //     }),
-      //   });
         
       const response = await axios.post("http://192.168.29.78:5000/login",{username: Usertrim,
             password: passwordtrim,})
