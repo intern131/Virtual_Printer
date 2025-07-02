@@ -1,21 +1,15 @@
 import React, { createContext, useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import {isTokenValid} from '../LoginPage/authUtils'
 
 export const Authcontext = createContext();
 
-const isTokenValid = (token) => {
-  if (!token) return false;
-  try {
-    const payload = JSON.parse(atob(token.split('.')[1]));
-    return Date.now() < payload.exp * 1000;
-  } catch {
-    return false;
-  }
-};
+
 
 const AuthProvider = ({ children }) => {
-  const [token, setToken] = useState(null );
+  const [token, setToken] = useState(null);
   const [isAuth, setIsAuth] = useState(false);
+  const [role,setrole]=useState(null);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -28,12 +22,12 @@ const AuthProvider = ({ children }) => {
     }
   }, []);
 
-  const login = (token,role) => {
-    if(token && role){
-    localStorage.setItem('token', token);
-    localStorage.setItem('role',role);
-    setToken(token);
-    setIsAuth(true);
+  const login = (token, role) => {
+    if (token && role) {
+      localStorage.setItem('token', token);
+      localStorage.setItem('role', role);
+      setToken(localStorage.getItem('token'));
+      setIsAuth(true);
     }
   };
 
@@ -45,7 +39,7 @@ const AuthProvider = ({ children }) => {
   };
 
   return (
-    <Authcontext.Provider value={{ token, isAuth, login, logout,setIsAuth }}>
+    <Authcontext.Provider value={{ token, isAuth, login, logout, setIsAuth,role }}>
       {children}
     </Authcontext.Provider>
   );

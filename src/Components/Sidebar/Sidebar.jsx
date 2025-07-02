@@ -67,6 +67,7 @@ const Sidebar = () => {
     if(window.confirm('Are Sure to logout')){
     
          localStorage.removeItem('token');
+         localStorage.removeItem('role');
         navigate('/');
     }
     else{

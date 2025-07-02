@@ -1,6 +1,7 @@
   import './index.css';
-  import { Routes, Route } from 'react-router-dom';
+  import { Routes, Route, useNavigate, Navigate } from 'react-router-dom';
   import { Toaster } from "sonner";
+  import { useEffect } from 'react';
 
   import LoginPage from './Pages/LoginPage/LoginPage';
   import Authorization from './Pages/LoginPage/Authorization';
@@ -18,6 +19,24 @@
   import VendorLayout from './Pages/Layout/VendorLayout'
 
   const App = () => {
+    const navigate=useNavigate();
+    
+     
+    useEffect(() => {
+      const token = localStorage.getItem('token');
+      const role = localStorage.getItem('role');
+
+      if (location.pathname === '/' && token && role) {
+        if (role === 'admin') {
+          navigate('/admin');
+        } else if (role === 'vendor') {
+          navigate('/user');
+        }
+      }
+    }, [navigate, location.pathname]);
+    
+
+
     return (
       <>
         <Toaster richColors position="top-center" />
